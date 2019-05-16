@@ -14,7 +14,11 @@ public class AssureClient {
   public Response get(String url) {
     RestAssured.baseURI = "http://localhost:8080";
 
-    return restAssured.get(url);
+    return restAssured.get(url)
+        .then()
+        .statusCode(200)
+        .extract()
+        .response();
   }
 
   public <T> T get(String url, Class<T> className) throws IOException {
@@ -24,6 +28,7 @@ public class AssureClient {
         .get(url)
         .then()
         .contentType(ContentType.JSON)
+        .statusCode(200)
         .extract()
         .response()
         .asString();
